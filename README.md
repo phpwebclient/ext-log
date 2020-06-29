@@ -1,6 +1,6 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/webclient/ext-log.svg?style=flat-square)](https://packagist.org/packages/webclient/ext-log)
 [![Total Downloads](https://img.shields.io/packagist/dt/webclient/ext-log.svg?style=flat-square)](https://packagist.org/packages/webclient/ext-log/stats)
-[![License](https://img.shields.io/packagist/l/webclient/ext-log.svg?style=flat-square)](https://github.com/ddrv/php-http-client-wrapper-log/blob/master/LICENSE)
+[![License](https://img.shields.io/packagist/l/webclient/ext-log.svg?style=flat-square)](https://github.com/phpwebclient/ext-log/blob/master/LICENSE)
 [![PHP](https://img.shields.io/packagist/php-v/webclient/ext-log.svg?style=flat-square)](https://php.net)
 
 # webclient/ext-log
