@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Webclient\Extension\Log;
 
-use Nyholm\Psr7\Request;
-use Nyholm\Psr7\Response;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Stuff\Webclient\Extension\Log\Error;
 use Webclient\Extension\Log\Formatter\RawHttpFormatter;
@@ -23,13 +23,6 @@ class RawHttpFormatterTest extends TestCase
      */
     private $formatter;
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->id = 'r1';
-        $this->formatter = new RawHttpFormatter();
-    }
-
     /**
      * @param string $method
      * @param string $uri
@@ -41,6 +34,7 @@ class RawHttpFormatterTest extends TestCase
      */
     public function testRequest(string $method, string $uri, array $headers, string $body, string $protocolVersion)
     {
+        $this->init();
         $request = new Request($method, $uri, $headers, $body, $protocolVersion);
         $expected = 'Request ' . $this->id . PHP_EOL;
         $expected .= $method . ' ' . $uri . ' HTTP/' . $protocolVersion . PHP_EOL;
@@ -65,6 +59,7 @@ class RawHttpFormatterTest extends TestCase
      */
     public function testResponse(int $status, string $phrase, array $headers, string $body, string $protocolVersion)
     {
+        $this->init();
         $response = new Response($status, $headers, $body, $protocolVersion, $phrase);
         $expected = 'Response ' . $this->id . PHP_EOL;
         $expected .= 'HTTP/' . $protocolVersion . ' ' . $status . ' ' . $phrase . PHP_EOL;
@@ -82,6 +77,7 @@ class RawHttpFormatterTest extends TestCase
      */
     public function testError(string $message)
     {
+        $this->init();
         $error = new Error($message);
         $expected = 'Connection ' . $this->id . PHP_EOL;
         $expected .= 'Error: ' . $message;
@@ -114,5 +110,11 @@ class RawHttpFormatterTest extends TestCase
             ['Timeout connection'],
             ['Network error'],
         ];
+    }
+
+    private function init()
+    {
+        $this->id = 'r1';
+        $this->formatter = new RawHttpFormatter();
     }
 }
