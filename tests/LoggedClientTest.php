@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Webclient\Extension\Log;
 
-use Nyholm\Psr7\Request;
+use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LogLevel;
@@ -35,14 +35,6 @@ class LoggedClientTest extends TestCase
      */
     private $generator;
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->logger = new Logger();
-        $this->generator = new StuffIdGenerator($this->getIdGenerator());
-        $this->formatter = $this->getFormatter();
-    }
-
     /**
      * @param int $status
      * @param string $requestLevel
@@ -54,6 +46,7 @@ class LoggedClientTest extends TestCase
      */
     public function testLogging(int $status, string $requestLevel, string $responseLevel)
     {
+        $this->init();
         $levels = $this->getFreeLevels([$requestLevel, $responseLevel]);
         $otherLevel = $levels[0];
         $params = [
@@ -89,6 +82,7 @@ class LoggedClientTest extends TestCase
      */
     public function testExceptionHandling(string $requestLevel, string $errorLevel)
     {
+        $this->init();
         $levels = $this->getFreeLevels([$requestLevel, $errorLevel]);
         $otherLevel = $levels[0];
         $params = [
@@ -239,5 +233,13 @@ class LoggedClientTest extends TestCase
             return ['none'];
         }
         return array_keys($levels);
+    }
+
+    private function init()
+    {
+        // this code moved from setUp() method for support older phpunit versions
+        $this->logger = new Logger();
+        $this->generator = new StuffIdGenerator($this->getIdGenerator());
+        $this->formatter = $this->getFormatter();
     }
 }
